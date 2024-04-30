@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0wn4r38o6yxs"]
+
+[ext_resource type="Script" path="res://scripts/cloud.gd" id="1_kxgdf"]
+[ext_resource type="Texture2D" uid="uid://caa44353wp14b" path="res://assets/unitytut-cloud.png" id="1_xk2x2"]
+
+[node name="Cloud" type="Node2D"]
+z_index = -3
+script = ExtResource("1_kxgdf")
+
+[node name="Unitytut-cloud" type="Sprite2D" parent="."]
+texture = ExtResource("1_xk2x2")

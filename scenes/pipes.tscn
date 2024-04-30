@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxsjuqjlhhvks"]
+
+[ext_resource type="Texture2D" uid="uid://ceqaav3gb38wf" path="res://assets/unitytut-pipe.png" id="1_0i67m"]
+[ext_resource type="Script" path="res://scripts/pipes.gd" id="1_27piw"]
+[ext_resource type="Texture2D" uid="uid://dciwtgj5f1kcu" path="res://assets/unitytut-pipe-body.png" id="2_lc21r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kp7hj"]
+size = Vector2(117, 1055)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ivxko"]
+size = Vector2(20, 309)
+
+[node name="Pipes" type="Node2D"]
+script = ExtResource("1_27piw")
+
+[node name="Top Pipe" type="Area2D" parent="."]
+position = Vector2(2.08165e-12, -300)
+collision_mask = 2
+
+[node name="Unitytut-pipe" type="Sprite2D" parent="Top Pipe"]
+position = Vector2(-6.77626e-21, -182)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_0i67m")
+
+[node name="Unitytut-pipe-body" type="Sprite2D" parent="Top Pipe"]
+position = Vector2(1, -709)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_lc21r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top Pipe"]
+position = Vector2(0.5, -437.5)
+shape = SubResource("RectangleShape2D_kp7hj")
+
+[node name="Bottom Pipe" type="Area2D" parent="."]
+position = Vector2(2.08165e-12, 200)
+collision_mask = 2
+
+[node name="Unitytut-pipe2" type="Sprite2D" parent="Bottom Pipe"]
+position = Vector2(-2.45175e-14, 182)
+rotation = 3.14159
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_0i67m")
+
+[node name="Unitytut-pipe-body2" type="Sprite2D" parent="Bottom Pipe"]
+position = Vector2(-2.08165e-12, 708)
+rotation = 3.14159
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_lc21r")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Bottom Pipe"]
+position = Vector2(1, 442)
+shape = SubResource("RectangleShape2D_kp7hj")
+
+[node name="PointTrigger" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PointTrigger"]
+position = Vector2(55, -52)
+shape = SubResource("RectangleShape2D_ivxko")
+
+[connection signal="body_entered" from="Top Pipe" to="." method="_on_top_pipe_body_entered"]
+[connection signal="body_entered" from="Bottom Pipe" to="." method="_on_bottom_pipe_body_entered"]
+[connection signal="body_entered" from="PointTrigger" to="." method="_on_point_trigger_body_entered"]

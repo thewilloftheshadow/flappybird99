@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://dpoju0v21ux31"]
+
+[ext_resource type="PackedScene" uid="uid://c3fi5lmqooghh" path="res://scenes/player.tscn" id="1_f8si1"]
+[ext_resource type="Script" path="res://scripts/GameManager.gd" id="2_y3780"]
+[ext_resource type="PackedScene" uid="uid://cxsjuqjlhhvks" path="res://scenes/pipes.tscn" id="3_8c6do"]
+[ext_resource type="Script" path="res://scripts/pipe_spawner.gd" id="4_0educ"]
+[ext_resource type="PackedScene" uid="uid://b0wn4r38o6yxs" path="res://scenes/cloud.tscn" id="4_ak83c"]
+[ext_resource type="Script" path="res://scripts/ground.gd" id="6_jq68b"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1trlk"]
+
+[node name="Game" type="Node2D"]
+
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_y3780")
+
+[node name="Timer" type="Timer" parent="GameManager"]
+wait_time = 1.5
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="UI" type="PanelContainer" parent="."]
+z_index = 999
+offset_left = -937.0
+offset_top = -527.0
+offset_right = -637.0
+offset_bottom = -425.0
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 46
+text = "Score: 0"
+horizontal_alignment = 1
+
+[node name="Player" parent="." instance=ExtResource("1_f8si1")]
+unique_name_in_owner = true
+position = Vector2(-550, 2.08165e-12)
+
+[node name="CloudSpawner" type="Node" parent="."]
+script = ExtResource("4_0educ")
+pipes = ExtResource("4_ak83c")
+
+[node name="Timer" type="Timer" parent="CloudSpawner"]
+wait_time = 10.0
+autostart = true
+
+[node name="PipeSpawner" type="Node" parent="."]
+script = ExtResource("4_0educ")
+pipes = ExtResource("3_8c6do")
+
+[node name="Timer" type="Timer" parent="PipeSpawner"]
+wait_time = 2.0
+autostart = true
+
+[node name="Floor" type="Area2D" parent="."]
+collision_mask = 2
+script = ExtResource("6_jq68b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(0, 549)
+shape = SubResource("WorldBoundaryShape2D_1trlk")
+
+[connection signal="timeout" from="GameManager/Timer" to="GameManager" method="_on_timer_timeout"]
+[connection signal="timeout" from="CloudSpawner/Timer" to="CloudSpawner" method="_on_timer_timeout"]
+[connection signal="timeout" from="PipeSpawner/Timer" to="PipeSpawner" method="_on_timer_timeout"]
+[connection signal="body_entered" from="Floor" to="Floor" method="_on_body_entered"]
